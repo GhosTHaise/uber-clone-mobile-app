@@ -7,7 +7,7 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 items-center justify-center">
       <View >
         <Text>Uber clone !</Text>
-        <StatusBar style="auto" />
+         <StatusBar style="auto" />
       </View>
     </SafeAreaView>
   );
