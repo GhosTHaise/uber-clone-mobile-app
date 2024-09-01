@@ -1,8 +1,9 @@
 {
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
+    "editor.wordWrap": "on",
     "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "vscode.typescript-language-features"
     },
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
