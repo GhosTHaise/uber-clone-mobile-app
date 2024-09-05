@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { useRef, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
@@ -26,14 +26,26 @@ const OnBoarding = () => {
                 onIndexChanged={(index) =>
                     setActiveIndex(index)
                 }
-
+                index={activeIndex}
             >
                 {
                     onboarding.map((item, index) => (
                         <View
                             key={item.title}
+                            className='flex items-center justify-center p-5'
                         >
-                            <Text className='text-black text-md font-JakartaBold'>{item.title}</Text>
+                            <Image
+                                source={item.image}
+                                className='w-full h-[300px]'
+                                resizeMode='contain'
+                            />
+                            <View className='flex flex-row items-center justify-center w-full mt-10'>
+                                <Text className='text-black text-3xl font-bold mx-10 text-center'>
+                                    {item.title}
+
+                                </Text>
+                            </View>
+                            <Text className='text-md font-JakartaSemiBold text-center text-[#858585] mx-10 mt-3'>{item.description}</Text>
                         </View>
                     ))
                 }
