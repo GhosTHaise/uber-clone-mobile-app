@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import Swiper from 'react-native-swiper'
+import { onboarding } from '@/constants'
 
 const OnBoarding = () => {
     const swiperRef = useRef<Swiper>(null);
@@ -27,21 +28,15 @@ const OnBoarding = () => {
                 }
 
             >
-                <View className='w-full h-full'>
-                    <View className='w-full h-full'>
-                        <View className='w-full h-full'>
-                            {activeIndex === 0 ? (
-                                <View className='w-full h-full'>
-
-                                </View>
-                            ) : (
-                                <View className='w-full h-full'>
-
-                                </View>
-                            )}
+                {
+                    onboarding.map((item, index) => (
+                        <View
+                            key={item.title}
+                        >
+                            <Text className='text-black text-md font-JakartaBold'>{item.title}</Text>
                         </View>
-                    </View>
-                </View>
+                    ))
+                }
             </Swiper>
         </SafeAreaView>
     )
