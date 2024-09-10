@@ -59,7 +59,7 @@ const SignUp = () => {
                     {/* OAuth */}
                     <Link href="/sign-in" className='text-lg text-center text-general-200 mt-8'>
                         <Text>Already have an account ?</Text>
-                        <Text className='text-primary-500'> Sign In</Text>
+                        <Text className='text-primary-500'> Sign Up</Text>
                     </Link>
                 </View>
                 {/* Verification Modal */}
