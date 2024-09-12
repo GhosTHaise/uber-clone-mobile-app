@@ -4,16 +4,80 @@ import { icons, images } from "@/constants";
 import InputField from "@/components/inputField";
 import CustomButton from "@/components/customButton";
 import { Link } from "expo-router";
+import { useSignUp } from "@clerk/clerk-expo";
 
 const SignUp = () => {
+  const { isLoaded, signUp, setActive } = useSignUp();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  const onSignUpPress = () => {
-    console.log("Sign Up Pressed");
+  const [verification, setVerification] = useState({
+    state: "default",
+    error: "",
+    code: "",
+  });
+
+  const onSignUpPress = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      await signUp.create({
+        emailAddress: form.email,
+        password: form.password,
+      });
+
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+
+      setVerification({
+        ...verification,
+        state: "pending",
+      });
+    } catch (err: any) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2));
+    }
+  };
+
+  const onPressVerify = async () => {
+    if (!isLoaded) return;
+
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code: verification.code,
+      });
+
+      if (completeSignUp.status === "complete") {
+        // TODO : create user in db
+        await setActive({ session: completeSignUp.createdSessionId });
+        setVerification({
+          ...verification,
+          state: "sucess",
+        });
+      } else {
+        setVerification({
+          ...verification,
+          state: "failed",
+          error: "verfication failed",
+        });
+        console.error(JSON.stringify(completeSignUp, null, 2));
+      }
+    } catch (err: any) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      setVerification({
+        ...verification,
+        state: "failed",
+        error: err.errors[0].longMessage,
+      });
+      console.error(JSON.stringify(err, null, 2));
+    }
   };
 
   return (
