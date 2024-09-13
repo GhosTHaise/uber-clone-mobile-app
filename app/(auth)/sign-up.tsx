@@ -3,7 +3,7 @@ import { useState } from "react";
 import { icons, images } from "@/constants";
 import InputField from "@/components/inputField";
 import CustomButton from "@/components/customButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
 import ReactNativeModal from "react-native-modal";
 
@@ -17,7 +17,7 @@ const SignUp = () => {
   });
 
   const [verification, setVerification] = useState({
-    state: "success",
+    state: "pending",
     error: "",
     code: "",
   });
@@ -134,6 +134,18 @@ const SignUp = () => {
             <Image
               source={images.check}
               className="w-[110px] h-[110px] mx-auto my-5"
+            />
+
+            <Text className="text-3xl font-jakartaBold text-center">
+              Verified
+            </Text>
+            <Text className="text-base font-jakarta text-center mt-2">
+              You successfully verified your email account.
+            </Text>
+            <CustomButton
+              title="Browse Home"
+              onPress={() => router.replace("/(root)/(tabs)/home")}
+              className="mt-5"
             />
           </View>
         </ReactNativeModal>
