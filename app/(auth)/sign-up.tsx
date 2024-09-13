@@ -5,6 +5,7 @@ import InputField from "@/components/inputField";
 import CustomButton from "@/components/customButton";
 import { Link } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
+import ReactNativeModal from "react-native-modal";
 
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -16,7 +17,7 @@ const SignUp = () => {
   });
 
   const [verification, setVerification] = useState({
-    state: "default",
+    state: "success",
     error: "",
     code: "",
   });
@@ -58,7 +59,7 @@ const SignUp = () => {
         await setActive({ session: completeSignUp.createdSessionId });
         setVerification({
           ...verification,
-          state: "sucess",
+          state: "success",
         });
       } else {
         setVerification({
@@ -128,7 +129,14 @@ const SignUp = () => {
             <Text className="text-primary-500"> Sign In</Text>
           </Link>
         </View>
-        {/* Verification Modal */}
+        <ReactNativeModal isVisible={verification.state === "success"}>
+          <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
+            <Image
+              source={images.check}
+              className="w-[110px] h-[110px] mx-auto my-5"
+            />
+          </View>
+        </ReactNativeModal>
       </View>
     </ScrollView>
   );
