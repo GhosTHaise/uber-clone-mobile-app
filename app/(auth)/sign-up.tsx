@@ -1,4 +1,4 @@
-import { Text, ScrollView, View, Image } from "react-native";
+import { Text, ScrollView, View, Image, Alert } from "react-native";
 import { useState } from "react";
 import { icons, images } from "@/constants";
 import InputField from "@/components/inputField";
@@ -43,6 +43,7 @@ const SignUp = () => {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error(JSON.stringify(err, null, 2));
+      Alert.alert("Error", err.errors[0].longMessage);
     }
   };
 
@@ -110,7 +111,7 @@ const SignUp = () => {
             placeholder="Enter your password"
             icon={icons.lock}
             secureTextEntry={true}
-            value=""
+            value={form.password}
             onChangeText={(value: string) =>
               setForm({ ...form, password: value })
             }
