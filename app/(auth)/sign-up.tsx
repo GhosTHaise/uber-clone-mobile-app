@@ -1,4 +1,4 @@
-import { Text, ScrollView, View, Image } from "react-native";
+import { Text, ScrollView, View, Image, Alert } from "react-native";
 import { useState } from "react";
 import { icons, images } from "@/constants";
 import InputField from "@/components/inputField";
@@ -17,7 +17,7 @@ const SignUp = () => {
   });
 
   const [verification, setVerification] = useState({
-    state: "pending",
+    state: "default",
     error: "",
     code: "",
   });
@@ -43,6 +43,7 @@ const SignUp = () => {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error(JSON.stringify(err, null, 2));
+      Alert.alert("Error", err.errors[0].longMessage);
     }
   };
 
@@ -110,7 +111,7 @@ const SignUp = () => {
             placeholder="Enter your password"
             icon={icons.lock}
             secureTextEntry={true}
-            value=""
+            value={form.password}
             onChangeText={(value: string) =>
               setForm({ ...form, password: value })
             }
@@ -129,6 +130,40 @@ const SignUp = () => {
             <Text className="text-primary-500"> Sign In</Text>
           </Link>
         </View>
+        <ReactNativeModal isVisible={verification.state === "pending"}>
+          <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
+            <Text className="text-2xl font-JakartaExtraBold mb-2">
+              Verification
+            </Text>
+            <Text className="font-jakarta mb-5">
+              We sent you a verification code to your email address.
+            </Text>
+            <InputField
+              label="Code"
+              icon={icons.lock}
+              placeholder="12345"
+              value={verification.code}
+              keyboardType="numeric"
+              onChangeText={(code: string) =>
+                setVerification({
+                  ...verification,
+                  code,
+                })
+              }
+            />
+            {verification.error && (
+              <Text className="text-red-500 text-sm mt-2">
+                {verification.error}
+              </Text>
+            )}
+
+            <CustomButton
+              title="Verify email"
+              onPress={onPressVerify}
+              className="mt-5 bg-success-500"
+            />
+          </View>
+        </ReactNativeModal>
         <ReactNativeModal isVisible={verification.state === "success"}>
           <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
             <Image
