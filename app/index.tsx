@@ -8,6 +8,7 @@ const Home = () => {
   if (isSignedIn) {
     return <Redirect href={"/"} />;
   }
+
   return <Redirect href="/(auth)/welcome" />;
 };
 

@@ -4,7 +4,7 @@ import React from "react";
 import { Image, View } from "react-native";
 
 const TabIcon = ({ focused, source }: { focused: boolean; source: any }) => (
-  <View>
+  <View className="flex flex-row justify-center items-center rounded-full">
     <View>
       <Image />
     </View>
