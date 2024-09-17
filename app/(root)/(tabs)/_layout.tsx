@@ -4,9 +4,18 @@ import React from "react";
 import { Image, View } from "react-native";
 
 const TabIcon = ({ focused, source }: { focused: boolean; source: any }) => (
-  <View>
-    <View>
-      <Image />
+  <View
+    className={`flex flex-row justify-center items-center rounded-full ${focused && "bg-general-300"}`}
+  >
+    <View
+      className={`rounded-full w-12 h-12 items-center justify-center ${focused && "bg-general-400"}`}
+    >
+      <Image
+        source={source}
+        tintColor={"white"}
+        className="w-7 h-7"
+        resizeMode="contain"
+      />
     </View>
   </View>
 );
