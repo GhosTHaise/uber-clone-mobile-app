@@ -1,5 +1,5 @@
 import { icons } from "@/constants";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatTime } from "@/lib/utils";
 import { Ride } from "@/types/type";
 import { Image, Text, View } from "react-native";
 
@@ -24,7 +24,7 @@ const RideCard = ({
         shadow-neutral-300 mb-3
         "
     >
-      <View className="flex flex-row items-center justify-between p-3">
+      <View className="flex flex-col items-center justify-center p-3">
         <View className="flex flex-row items-center justify-between">
           <Image
             source={{
@@ -59,7 +59,7 @@ const RideCard = ({
               Date & Time
             </Text>
             <Text className="text-md font-JakartaMedium text-gray-500">
-              {formatDate(created_at)}, {formatDate(ride_time)}
+              {formatDate(created_at)}, {formatTime(ride_time)}
             </Text>
           </View>
         </View>
