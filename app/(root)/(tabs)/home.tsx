@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, FlatList, Image, ActivityIndicator } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "@clerk/clerk-expo";
@@ -137,7 +137,7 @@ const Home = () => {
                 <Text className="text-sm">No recent rides found</Text>
               </>
             ) : (
-              <Text>Loading</Text>
+              <ActivityIndicator size="large" color="#000" />
             )}
           </View>
         )}
