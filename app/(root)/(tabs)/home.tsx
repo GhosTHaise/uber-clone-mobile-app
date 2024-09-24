@@ -1,9 +1,17 @@
-import { View, Text, FlatList, Image, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "@clerk/clerk-expo";
 import RideCard from "@/components/rideCard";
-import { images } from "@/constants";
+import { icons, images } from "@/constants";
+import GoogleTextInput from "@/components/googleTextInput";
 
 const recentRides = [
   {
@@ -114,12 +122,14 @@ const recentRides = [
 
 const Home = () => {
   const { user } = useUser();
-  const loading = true;
+  const loading = false;
 
+  const handleSignout = () => {};
+  const handleDestinationPress = () => {};
   return (
     <SafeAreaView className="bg-general-500">
       <FlatList
-        data={[]}
+        data={recentRides}
         renderItem={({ item }) => <RideCard ride={item} />}
         className="px-5"
         keyboardShouldPersistTaps="handled"
@@ -140,6 +150,30 @@ const Home = () => {
               <ActivityIndicator size="large" color="#000" />
             )}
           </View>
+        )}
+        ListHeaderComponent={() => (
+          <>
+            <View className="flex flex-row items-center justify-between my-5">
+              <Text className="text-xl capitalize font-JakartaExtraBold">
+                Welcome{" "}
+                {user?.firstName ||
+                  user?.emailAddresses[0].emailAddress.split(/@/)[0]}{" "}
+                👋
+              </Text>
+              <TouchableOpacity
+                onPress={handleSignout}
+                className="justify-center items-center w-10 h-10 rounded-full bg-white"
+              >
+                <Image source={icons.out} className="w-4 h-4" />
+              </TouchableOpacity>
+            </View>
+
+            <GoogleTextInput
+              icon={icons.search}
+              containerStyle="bg-white shadow-md shadow-neutral-300"
+              handlePress={handleDestinationPress}
+            />
+          </>
         )}
       />
     </SafeAreaView>
