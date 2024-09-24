@@ -4,7 +4,6 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
-  Touchable,
   TouchableOpacity,
 } from "react-native";
 import React from "react";
@@ -12,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useUser } from "@clerk/clerk-expo";
 import RideCard from "@/components/rideCard";
 import { icons, images } from "@/constants";
+import GoogleTextInput from "@/components/googleTextInput";
 
 const recentRides = [
   {
@@ -125,6 +125,7 @@ const Home = () => {
   const loading = false;
 
   const handleSignout = () => {};
+  const handleDestinationPress = () => {};
   return (
     <SafeAreaView className="bg-general-500">
       <FlatList
@@ -166,6 +167,12 @@ const Home = () => {
                 <Image source={icons.out} className="w-4 h-4" />
               </TouchableOpacity>
             </View>
+
+            <GoogleTextInput
+              icon={icons.search}
+              containerStyle="bg-white shadow-md shadow-neutral-300"
+              handlePress={handleDestinationPress}
+            />
           </>
         )}
       />
