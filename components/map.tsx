@@ -1,7 +1,15 @@
+import { useLocationStore } from "@/store";
 import { Text } from "react-native";
 import MapView, { PROVIDER_DEFAULT } from "react-native-maps";
 
 const Map = () => {
+  const {
+    userLatitude,
+    userLongitude,
+    destinationLatitude,
+    destinationLongitude,
+  } = useLocationStore();
+
   return (
     <MapView
       provider={PROVIDER_DEFAULT}
