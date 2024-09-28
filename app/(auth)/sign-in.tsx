@@ -60,13 +60,13 @@ const SignIn = () => {
             placeholder="Enter your password"
             icon={icons.lock}
             secureTextEntry={true}
-            value=""
+            value={form.password}
             onChangeText={(value: string) =>
               setForm({ ...form, password: value })
             }
           />
           <CustomButton
-            title="Sign Up"
+            title="Sign In"
             onPress={onSignInPress}
             className="mt-6"
           />
