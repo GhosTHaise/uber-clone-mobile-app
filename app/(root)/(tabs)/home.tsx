@@ -124,7 +124,8 @@ const recentRides = [
 ];
 
 const Home = () => {
-  const { setUserLocation, setDestinationLocation } = useLocationStore();
+  const { setUserLocation, setDestinationLocation, userAddress } =
+    useLocationStore();
   const { user } = useUser();
   const loading = false;
 
@@ -143,7 +144,6 @@ const Home = () => {
       }
 
       let location = await Location.getCurrentPositionAsync();
-
       const address = await Location.reverseGeocodeAsync({
         latitude: location.coords.latitude!,
         longitude: location.coords.longitude!,
