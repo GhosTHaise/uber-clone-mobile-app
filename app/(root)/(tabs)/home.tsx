@@ -142,6 +142,11 @@ const Home = () => {
     longitude: number;
     address: string;
   }) => {
+    setDestinationLocation({
+      latitude,
+      longitude,
+      address,
+    });
     router.push("/(root)/find-ride");
   };
 
