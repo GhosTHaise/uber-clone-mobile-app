@@ -11,11 +11,12 @@ const FindRide = () => {
   } = useLocationStore();
 
   return (
-    <View>
-      <RideLayout>
-        <Text className="text-2xl">Find Ride</Text>
-      </RideLayout>
-    </View>
+    <RideLayout title="Ride">
+      <Text className="text-2xl">Find Ride</Text>
+      <Text className="text-2xl">Find Ride</Text>
+      <Text className="text-2xl">Find Ride</Text>
+      <Text className="text-2xl">Find Ride</Text>
+    </RideLayout>
   );
 };
 
