@@ -178,6 +178,7 @@ const Home = () => {
       <FlatList
         data={recentRides}
         renderItem={({ item }) => <RideCard ride={item} />}
+        keyExtractor={(item, index) => index.toString()}
         className="px-5"
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ paddingBottom: 100 }}
