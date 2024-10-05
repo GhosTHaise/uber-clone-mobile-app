@@ -3,6 +3,8 @@ import React from "react";
 import RideLayout from "@/components/rideLayout";
 import { drivers } from "@/components/map";
 import DriverCard from "@/components/driverCard";
+import CustomButton from "@/components/customButton";
+import { router } from "expo-router";
 
 const ConfirmRide = () => {
   return (
@@ -10,6 +12,14 @@ const ConfirmRide = () => {
       <FlatList
         data={drivers}
         renderItem={({ item }) => <DriverCard item={item} />}
+        ListFooterComponent={() => (
+          <View className="mx-5 mt-10">
+            <CustomButton
+              title="Select Ride"
+              onPress={() => router.push("/(root)/book-ride")}
+            />
+          </View>
+        )}
       />
     </RideLayout>
   );
