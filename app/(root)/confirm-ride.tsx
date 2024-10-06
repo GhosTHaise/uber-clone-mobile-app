@@ -16,7 +16,7 @@ const ConfirmRide = () => {
         renderItem={({ item }) => (
           <DriverCard
             selected={selectedDriver!}
-            setSelected={() => setSelectedDriver(item.driver_id)}
+            setSelected={() => setSelectedDriver(item.id)}
             item={item}
           />
         )}
