@@ -28,7 +28,20 @@ const Payment = () => {
     shouldSavePaymentMethod,
     intentCreationCallback,
   ) => {
-    // explained later
+    // Make a request to your own server.
+    const response = await fetch(`/api/create-intent`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    // Call the `intentCreationCallback` with your server response's client secret or error
+    const { client_secret, error } = await response.json();
+    if (client_secret) {
+      intentCreationCallback({ clientSecret: client_secret });
+    } else {
+      intentCreationCallback({ error });
+    }
   };
 
   const openPaymentSheet = async () => {
