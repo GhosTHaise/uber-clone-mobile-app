@@ -2,8 +2,16 @@ import { View, Text, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import CustomButton from "./customButton";
 import { PaymentSheetError, useStripe } from "@stripe/stripe-react-native";
+import { fetchAPI } from "@/lib/fetch";
+import { PaymentProps } from "@/types/type";
 
-const Payment = () => {
+const Payment = ({
+  fullName,
+  email,
+  amount,
+  driverId,
+  rideTime,
+}: PaymentProps) => {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -23,18 +31,23 @@ const Payment = () => {
     }
   };
 
-  const confirmHandler = async (
-    paymentMethod,
-    shouldSavePaymentMethod,
-    intentCreationCallback,
-  ) => {
+  const confirmHandler = async (paymentMethod, _, intentCreationCallback) => {
     // Make a request to your own server.
-    const response = await fetch(`/api/create-intent`, {
+    const { paymentIntent, customer } = await fetchAPI("/api/stripe/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        name: fullName || email.split("@")[0],
+        email,
+        amount,
+        paymentMethodId: paymentMethod.id,
+      }),
     });
+
+    if (paymentIntent.client_secret) {
+    }
     // Call the `intentCreationCallback` with your server response's client secret or error
     const { client_secret, error } = await response.json();
     if (client_secret) {
