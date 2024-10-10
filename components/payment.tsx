@@ -47,7 +47,23 @@ const Payment = ({
     });
 
     if (paymentIntent.client_secret) {
+      const { result } = await fetchAPI("/api/stripe/pay", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          payment_method_id: paymentMethod.id,
+          payment_intent_id: paymentIntent.id,
+          customer_id: customer,
+        }),
+      });
+
+      if (result.client_secret) {
+        //TODO : Ride/create
+      }
     }
+
     // Call the `intentCreationCallback` with your server response's client secret or error
     const { client_secret, error } = await response.json();
     if (client_secret) {
