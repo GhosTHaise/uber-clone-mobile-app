@@ -13,8 +13,6 @@ const BookRide = () => {
   const { user } = useUser();
   const { userAddress, destinationAddress } = useLocationStore();
   const { drivers, selectedDriver } = useDriverStore();
-  console.log("🚀 ~ BookRide ~ selectedDriver:", selectedDriver);
-  console.log("🚀 ~ BookRide ~ drivers:", drivers);
 
   const driverDetails = drivers?.filter(
     (driver) => +driver.id === +selectedDriver!,
