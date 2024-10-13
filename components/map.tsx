@@ -1,6 +1,10 @@
 import { icons } from "@/constants";
 import { useFetch } from "@/lib/fetch";
-import { calculateRegion, generateMarkersFromData } from "@/lib/map";
+import {
+  calculateDriverTimes,
+  calculateRegion,
+  generateMarkersFromData,
+} from "@/lib/map";
 import { useDriverStore, useLocationStore } from "@/store";
 import { Driver, MarkerData } from "@/types/type";
 import { useEffect, useState } from "react";
@@ -38,6 +42,20 @@ const Map = () => {
       setMarkers(newMarkers);
     }
   }, [drivers]);
+
+  useEffect(() => {
+    if (!!markers.length && destinationLatitude && destinationLongitude) {
+      calculateDriverTimes({
+        markers,
+        userLatitude,
+        userLongitude,
+        destinationLatitude,
+        destinationLongitude,
+      }).then((drivers) => {
+        setDrivers(drivers as MarkerData[]);
+      });
+    }
+  }, [markers, destinationLatitude, destinationLongitude]);
 
   if (loading || !userLatitude || !userLongitude)
     return (
