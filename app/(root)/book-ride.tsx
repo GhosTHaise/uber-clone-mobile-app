@@ -13,8 +13,6 @@ const BookRide = () => {
   const { user } = useUser();
   const { userAddress, destinationAddress } = useLocationStore();
   const { drivers, selectedDriver } = useDriverStore();
-  console.log("🚀 ~ BookRide ~ selectedDriver:", selectedDriver);
-  console.log("🚀 ~ BookRide ~ drivers:", drivers);
 
   const driverDetails = drivers?.filter(
     (driver) => +driver.id === +selectedDriver!,
@@ -67,7 +65,7 @@ const BookRide = () => {
             <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
               <Text className="text-lg font-JakartaRegular">Pickup Time</Text>
               <Text className="text-lg font-JakartaRegular">
-                {formatTime(driverDetails?.time! | 5)}
+                {formatTime(parseInt(`${driverDetails?.time! || 5}`))}
               </Text>
             </View>
 
@@ -96,7 +94,7 @@ const BookRide = () => {
           </View>
           <Payment
             fullName={user?.fullName!}
-            email={email?.emailAddresses[0].emailAddress!}
+            email={user?.emailAddresses[0].emailAddress!}
             amount={driverDetails?.price!}
             driverId={driverDetails?.id}
             rideTime={driverDetails?.time!}
