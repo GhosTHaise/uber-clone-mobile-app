@@ -30,9 +30,24 @@ const Payment = ({
     destinationAddress,
   } = useLocationStore();
 
+  const openPaymentSheet = async () => {
+    await initializePaymentSheet();
+    const { error } = await presentPaymentSheet();
+
+    if (error) {
+      Alert.alert(
+        `Error code : ${error.code}`,
+        `Error message : ${error.message}`,
+      );
+    } else {
+      // Payment completed - show a confirmation screen.
+      setIsSuccess(true);
+    }
+  };
+
   const initializePaymentSheet = async () => {
     const { error } = await initPaymentSheet({
-      merchantDisplayName: "Example, Inc.",
+      merchantDisplayName: "Ryde, Inc.",
       intentConfiguration: {
         mode: {
           amount: parseInt(amount) * 100,
@@ -93,6 +108,7 @@ const Payment = ({
 
             // Call the `intentCreationCallback` with your server response's client secret or error
             const { client_secret, error } = result.client_secret;
+            console.log("🚀 ~ confirmHandler: ~ client_secret:", client_secret);
 
             if (client_secret) {
               intentCreationCallback({ clientSecret: client_secret });
@@ -100,61 +116,47 @@ const Payment = ({
               intentCreationCallback({ error });
             }
           }
-
-          const openPaymentSheet = async () => {
-            await initializePaymentSheet();
-            const { error } = await presentPaymentSheet();
-
-            if (error) {
-              Alert.alert(
-                `Error code : ${error.code}`,
-                `Error message : ${error.message}`,
-              );
-            } else {
-              // Payment completed - show a confirmation screen.
-              setIsSuccess(true);
-            }
-          };
-
-          return (
-            <>
-              <CustomButton
-                title="Confirm Ride"
-                className="my-10"
-                onPress={openPaymentSheet}
-              />
-              <ReactNativeModal
-                isVisible={isSuccess}
-                onBackdropPress={() => setIsSuccess(false)}
-              >
-                <View className="flex flex-col items-center justify-center bg-wjite roudned-2xl">
-                  <Image source={images.check} className="w-28 h-28 mt-5" />
-                  <Text className="text-2xl text-center font-JakartaBold mt-5">
-                    Ride booked!
-                  </Text>
-                  <Text className="text-md text-general-200 font-JakartaMedium text-center mt-3">
-                    Thank you for your booking. Your reservation has been
-                    placed. Please procees with your trip!
-                  </Text>
-                  <CustomButton
-                    title="Back Home"
-                    onPress={() => {
-                      setIsSuccess(false);
-                      router.push("/(root)/(tabs)/home");
-                    }}
-                    className="mt-5"
-                  />
-                </View>
-              </ReactNativeModal>
-            </>
-          );
         },
       },
       returnURL: 'myapp"//book-ride',
     });
     if (error) {
+      console.log("🚀 ~ initializePaymentSheet ~ error:", error);
       console.log({ error });
     }
   };
+
+  return (
+    <>
+      <CustomButton
+        title="Confirm Ride"
+        className="my-10"
+        onPress={openPaymentSheet}
+      />
+      <ReactNativeModal
+        isVisible={isSuccess}
+        onBackdropPress={() => setIsSuccess(false)}
+      >
+        <View className="flex flex-col items-center justify-center bg-wjite roudned-2xl">
+          <Image source={images.check} className="w-28 h-28 mt-5" />
+          <Text className="text-2xl text-center font-JakartaBold mt-5">
+            Ride booked!
+          </Text>
+          <Text className="text-md text-general-200 font-JakartaMedium text-center mt-3">
+            Thank you for your booking. Your reservation has been placed. Please
+            procees with your trip!
+          </Text>
+          <CustomButton
+            title="Back Home"
+            onPress={() => {
+              setIsSuccess(false);
+              router.push("/(root)/(tabs)/home");
+            }}
+            className="mt-5"
+          />
+        </View>
+      </ReactNativeModal>
+    </>
+  );
 };
 export default Payment;
