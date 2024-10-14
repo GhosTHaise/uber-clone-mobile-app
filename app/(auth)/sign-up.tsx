@@ -7,6 +7,7 @@ import { Link, router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
 import ReactNativeModal from "react-native-modal";
 import { fetchAPI } from "@/lib/fetch";
+import OAuth from "@/components/oAuth";
 
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -131,7 +132,7 @@ const SignUp = () => {
             onPress={onSignUpPress}
             className="mt-6"
           />
-          {/* OAuth */}
+          <OAuth />
           <Link
             href="/sign-in"
             className="text-lg text-center text-general-200 mt-8"
