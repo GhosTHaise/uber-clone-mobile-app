@@ -1,38 +1,45 @@
-import React from 'react'
-import { Image, Text, View } from 'react-native'
-import CustomButton from './customButton'
-import { icons } from '@/constants'
+import { useCallback } from "react";
+import { Image, Text, View } from "react-native";
+import CustomButton from "./customButton";
+import { icons } from "@/constants";
+import { useOAuth } from "@clerk/clerk-expo";
+import { googleOAuth } from "@/lib/auth";
 
 const OAuth = () => {
+  const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
 
-    const handleGoogleLogin = () => {
-        console.log('Google login')
+  const handleGoogleLogin = useCallback(async () => {
+    try {
+      const result = await googleOAuth(startOAuthFlow);
+    } catch (err) {
+      console.error("OAuth error", err);
     }
+  }, []);
 
-    return (
-        <View>
-            <View className="flex flex-row justify-center items-center mt-4 gap-x-3">
-                <View className="flex-1 h-[1px] bg-general-100" />
-                <Text className='text-lg'>Or</Text>
-                <View className="flex-1 h-[1px] bg-general-100" />
-            </View>
-            <CustomButton
-                className='mt-5 w-full shadow-none'
-                title='Sign in with Google'
-                onPress={handleGoogleLogin}
-                IconLeft={() => (
-                    <Image
-                        source={icons.google}
-                        className='w-5 h-5 mt-2'
-                        resizeMode='contain'
-                        alt='google'
-                    />
-                )}
-                bgVariant='outline'
-                textVariant='primary'
-            />
-        </View>
-    )
-}
+  return (
+    <View>
+      <View className="flex flex-row justify-center items-center mt-4 gap-x-3">
+        <View className="flex-1 h-[1px] bg-general-100" />
+        <Text className="text-lg">Or</Text>
+        <View className="flex-1 h-[1px] bg-general-100" />
+      </View>
+      <CustomButton
+        className="mt-5 w-full shadow-none"
+        title="Sign in with Google"
+        onPress={handleGoogleLogin}
+        IconLeft={() => (
+          <Image
+            source={icons.google}
+            className="w-5 h-5 mx-2"
+            resizeMode="contain"
+            alt="google"
+          />
+        )}
+        bgVariant="outline"
+        textVariant="primary"
+      />
+    </View>
+  );
+};
 
-export default OAuth
+export default OAuth;
