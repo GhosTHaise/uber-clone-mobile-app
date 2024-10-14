@@ -9,7 +9,7 @@ import {
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useUser } from "@clerk/clerk-expo";
+import { useAuth, useUser } from "@clerk/clerk-expo";
 import RideCard from "@/components/rideCard";
 import { icons, images } from "@/constants";
 import GoogleTextInput from "@/components/googleTextInput";
@@ -23,10 +23,15 @@ const Home = () => {
     useLocationStore();
   const { user } = useUser();
   const { data: recentRides, loading } = useFetch(`/(api)/ride/${user?.id}`);
-
+  const { signOut } = useAuth();
   const [hasPermission, setHasPermission] = useState(false);
 
-  const handleSignout = () => {};
+  const handleSignout = () => {
+    signOut();
+
+    router.replace("/(auth)/sign-in");
+  };
+
   const handleDestinationPress = ({
     latitude,
     longitude,
