@@ -13,8 +13,7 @@ const OAuth = () => {
     try {
       const result = await googleOAuth(startOAuthFlow);
 
-      if (result.code === "session_exists") {
-        Alert.alert("Success", "Session Exists. Redirecting to home page");
+      if (result.code === "session_exists" || result.code === "success") {
         router.push("/(root)/(tabs)/home");
       }
 

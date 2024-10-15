@@ -19,7 +19,7 @@ if (!publishableKey) {
   );
 }
 
-LogBox.ignoreLogs(["Clerk:"]);
+LogBox.ignoreLogs(["Clerk:", "Warning:"]);
 
 export default function RootLayout() {
   const [loaded] = useFonts({
