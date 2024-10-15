@@ -17,12 +17,15 @@ import Map from "@/components/map";
 import { useLocationStore } from "@/store";
 import { router } from "expo-router";
 import { useFetch } from "@/lib/fetch";
+import { Ride } from "@/types/type";
 
 const Home = () => {
   const { setUserLocation, setDestinationLocation, userAddress } =
     useLocationStore();
   const { user } = useUser();
-  const { data: recentRides, loading } = useFetch(`/(api)/ride/${user?.id}`);
+  const { data: recentRides, loading } = useFetch<Ride[]>(
+    `/(api)/ride/${user?.id}`,
+  );
   const { signOut } = useAuth();
   const [hasPermission, setHasPermission] = useState(false);
 
@@ -75,7 +78,7 @@ const Home = () => {
   return (
     <SafeAreaView className="bg-general-500">
       <FlatList
-        data={recentRides}
+        data={recentRides?.slice(0, 5)}
         renderItem={({ item }) => <RideCard ride={item} />}
         keyExtractor={(item, index) => index.toString()}
         className="px-5"

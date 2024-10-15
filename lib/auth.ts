@@ -52,8 +52,8 @@ export const googleOAuth = async (startOAuthFlow: any) => {
           await fetchAPI("/(api)/user", {
             method: "POST",
             body: JSON.stringify({
-              email: signUp.createdUserId,
-              name: signUp.createdUserId,
+              email: signUp.emailAddress,
+              name: `${signUp.firstName} ${signUp.lastName}`,
               clerkId: signUp.createdUserId,
             }),
           });
@@ -69,6 +69,7 @@ export const googleOAuth = async (startOAuthFlow: any) => {
 
     return {
       success: false,
+      code: "Success",
       message: "An error occurred",
     };
   } catch (error: any) {
@@ -76,6 +77,7 @@ export const googleOAuth = async (startOAuthFlow: any) => {
 
     return {
       success: false,
+      code: error.code,
       message: error?.errors[0]?.longMessage,
     };
   }
